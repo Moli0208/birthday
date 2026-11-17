@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ 像素风生日快乐 ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            background-color: #1a1c2c;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 防止飘带撑开滚动条 */
+            position: relative;
+        }
+
+        /* 像素风主卡片 */
+        .pixel-card {
+            background: #2b2d42;
+            padding: 50px 40px;
+            box-shadow: 8px 8px 0 #000, -4px -4px 0 rgba(255, 255, 255, 0.1) inset, 0 0 0 4px #5e60ce;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            max-width: 90vw;
+            width: fit-content;
+            animation: cardFloat 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes cardFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: #ffd166;
+            text-shadow: 3px 3px 0 #ef476f;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: #06d6a0;
+            text-shadow: 2px 2px 0 #000;
+            margin-bottom: 40px;
+        }
+
+        /* ——— 纯 CSS 像素大蛋糕 ——— */
+        .pixel-scene {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: transform 0.1s;
+        }
+
+        .pixel-scene:active { transform: scale(0.95); }
+
+        .big-cake {
+            position: relative;
+            width: 160px;
+            height: 120px;
+            background: #ffd166;
+            /* 像素阴影和分层 */
+            box-shadow: 
+                0 0 0 4px #000, 
+                inset 0 -30px 0 #ef476f, /* 底层红色 */
+                inset 0 10px 0 #fff5e0,  /* 顶层奶油 */
+                8px 8px 0 rgba(0,0,0,0.5);
+            animation: cakeFloat 2s infinite alternate;
+            margin: 0 auto;
+        }
+
+        @keyframes cakeFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* 蛋糕上的蜡烛 */
+        .big-candle {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 40px;
+            background: #fff;
+            box-shadow: 0 0 0 4px #000;
+        }
+
+        .big-flame {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 25px;
+            background: #ffb347;
+            box-shadow: 0 0 0 4px #000;
+            animation: flameFlicker 0.3s infinite alternate;
+        }
+
+        @keyframes flameFlicker {
+            0% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+        }
+
+        /* 按钮组 */
+        .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+
+        .pixel-btn {
+            background: #06d6a0;
+            color: #1a1c2c;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.9rem;
+            padding: 15px 20px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 4px 4px 0 #000, 0 0 0 4px #fff inset;
+            transition: transform 0.1s, box-shadow 0.1s;
+            text-transform: uppercase;
+        }
+
+        .pixel-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #000, 0 0 0 4px #fff inset; }
+        .music-btn { background: #ef476f; color: #fff; }
+
+        /* 消息区域 */
+        .pixel-msg {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #fff;
+            text-shadow: 2px 2px 0 #000;
+            min-height: 60px;
+            line-height: 1.6;
+            padding: 10px;
+            border: 3px dashed #fff;
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* ——— 飘落的像素彩带 ——— */
+        .pixel-confetti {
+            position: fixed;
+            top: -20px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall linear infinite; /* 无限循环 */
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(720deg); }
+        }
+
+        .hint { position: absolute; bottom: 15px; left: 0; right: 0; text-align: center; color: rgba(255, 255, 255, 0.4); font-size: 0.7rem; z-index: 20; }
+
+        @media (max-width: 600px) {
+            .big-cake { width: 120px; height: 90px; }
+            .pixel-btn { font-size: 0.8rem; padding: 12px 15px; }
+            .pixel-card { padding: 30px 20px; }
+            .big-flame { width: 16px; height: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 提前绑定好你的音乐 -->
+    <audio id="popMusic" src="song.mp3" loop></audio>
+
+    <div class="pixel-card">
+        <h1>HAPPY<br>BIRTHDAY</h1>
+        <div class="subtitle">TO MY BEST FRIEND</div>
+
+        <!-- 大蛋糕 -->
+        <div class="pixel-scene" id="cakeClicker" title="点一下蛋糕！">
+            <div class="big-cake">
+                <div class="big-candle">
+                    <div class="big-flame"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="pixel-btn" id="wishButton">🌟 许个愿</button>
+            <button class="pixel-btn music-btn" id="musicButton">🎵 开启音乐</button>
+        </div>
+
+        <div class="pixel-msg" id="messageBox">
+            点击蛋糕或按钮，接受像素级祝福！
+        </div>
+    </div>
+
+    <div class="hint">✨ CLICK THE CAKE ✨</div>
+
+    <script>
+        // ——— 1. 生成一直飘落的背景彩带 ———
+        // 初始化时生成 50 片彩带，用无限循环动画让它们一直飘
+        function initBackgroundConfetti() {
+            const colors = ['#ffd166', '#ef476f', '#06d6a0', '#118ab2', '#ffffff', '#ffb347'];
+            const totalConfetti = 50; // 保持屏幕上的彩带数量
+
+            for (let i = 0; i < totalConfetti; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('pixel-confetti');
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 随机大小
+                const size = Math.floor(Math.random() * 8) + 6;
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                
+                // 随机位置
+                confetti.style.left = Math.random() * 100 + '%';
+                
+                // 随机动画时长，让它们掉落速度不一
+                const duration = Math.random() * 3 + 3; // 3~6秒
+                confetti.style.animationDuration = duration + 's';
+                
+                // 随机延迟，这样一开始不会像下雨一样全在顶部
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // 启动背景彩带
+        initBackgroundConfetti();
+
+        // ——— 2. 音乐系统 (像素音乐 + MP3) ———
+        let audioCtx = null;
+        let isPlaying = false;
+        let musicInterval = null;
+        let isPopMusicMode = false; 
+
+        const musicBtn = document.getElementById('musicButton');
+        const popMusic = document.getElementById('popMusic');
+
+        const notes = [
+            [392, 0.3], [392, 0.3], [440, 0.6], [392, 0.6], [523, 0.6], [494, 1.2],
+            [392, 0.3], [392, 0.3], [440, 0.6], [392, 0.6], [587, 0.6], [523, 1.2],
+            [392, 0.3], [392, 0.3], [784, 0.6], [659, 0.6], [523, 0.6], [494, 0.6], [440, 1.2],
+            [698, 0.3], [698, 0.3], [659, 0.6], [523, 0.6], [587, 0.6], [523, 1.2]
+        ];
+
+        function playTone(freq, duration) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.02);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime + duration - 0.05);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        let noteIndex = 0;
+        function playNextNote() {
+            if (!isPlaying || isPopMusicMode) return; 
+            const note = notes[noteIndex];
+            playTone(note[0], note[1]);
+            const delay = note[1] * 1000; 
+            noteIndex = (noteIndex + 1) % notes.length;
+            musicInterval = setTimeout(playNextNote, delay);
+        }
+
+        function switchToPopMusic() {
+            if (isPopMusicMode) return; 
+            isPlaying = false;
+            clearTimeout(musicInterval);
+            isPopMusicMode = true;
+            musicBtn.textContent = '⏸ 暂停音乐';
+            musicBtn.style.background = '#118ab2';
+            popMusic.play().catch(() => {});
+        }
+
+        musicBtn.addEventListener('click', () => {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (isPopMusicMode) {
+                if (popMusic.paused) {
+                    popMusic.play().catch(()=>{});
+                    musicBtn.textContent = '⏸ 暂停音乐';
+                } else {
+                    popMusic.pause();
+                    musicBtn.textContent = '🎵 播放音乐';
+                }
+            } else {
+                if (isPlaying) {
+                    isPlaying = false;
+                    clearTimeout(musicInterval);
+                    musicBtn.textContent = '🎵 开启音乐';
+                    musicBtn.style.background = '#ef476f';
+                } else {
+                    isPlaying = true;
+                    noteIndex = 0;
+                    playNextNote();
+                    musicBtn.textContent = '⏸ 关闭音乐';
+                    musicBtn.style.background = '#118ab2';
+                }
+            }
+        });
+
+        // ——— 3. 互动逻辑 ———
+        const messageBox = document.getElementById('messageBox');
+        const wishBtn = document.getElementById('wishButton');
+        const cakeClicker = document.getElementById('cakeClicker');
+
+        const messages = [
+            "🎮 PLAYER 1: HAPPY BIRTHDAY!",
+            "🍰 愿你每天都像这块蛋糕一样甜！",
+            "👾 新的一岁，经验值+999，超开心！",
+            "💾 存档成功：2026年最美好的一天！",
+            "⭐ 星星都为你点亮，许个愿吧！",
+            "🕹️ 按下了【快乐】按钮，效果拔群！",
+            "🎁 这是隐藏关卡：找到一整年的好运！",
+            "✨ 生日快乐！！！xixi ^-^"
+        ];
+
+        // 点击互动的爆炸彩带（额外增加一波）
+        function createExplosionConfetti(amount = 30) {
+            const colors = ['#ffd166', '#ef476f', '#06d6a0', '#118ab2', '#ffffff', '#ffb347'];
+            for (let i = 0; i < amount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('pixel-confetti');
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.floor(Math.random() * 8) + 8;
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                confetti.style.left = Math.random() * 100 + '%';
+                // 爆炸效果，快速掉落一次就不管了
+                confetti.style.animation = `fall ${Math.random() * 2 + 1.5}s linear forwards`;
+                document.body.appendChild(confetti);
+                setTimeout(() => { if (confetti.parentNode) confetti.remove(); }, 4000);
+            }
+        }
+
+        function showRandomMessage() {
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            messageBox.textContent = messages[randomIndex];
+            messageBox.style.transform = 'scale(1.05)';
+            messageBox.style.color = '#ffd166';
+            setTimeout(() => {
+                messageBox.style.transform = 'scale(1)';
+                messageBox.style.color = '#fff';
+            }, 150);
+            createExplosionConfetti(20); // 每次点击额外爆一波
+        }
+
+        function triggerInteraction() {
+            showRandomMessage();
+            if (!isPopMusicMode) {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                switchToPopMusic();
+            }
+        }
+
+        cakeClicker.addEventListener('click', function(e) {
+            e.stopPropagation();
+            triggerInteraction();
+        });
+
+        wishBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.style.transform = 'translate(4px, 4px)';
+            this.style.boxShadow = '0 0 0 #000, 0 0 0 4px #fff inset';
+            setTimeout(() => {
+                this.style.transform = 'translate(0, 0)';
+                this.style.boxShadow = '4px 4px 0 #000, 0 0 0 4px #fff inset';
+            }, 100);
+            triggerInteraction();
+        });
+    </script>
+</body>
+</html>
